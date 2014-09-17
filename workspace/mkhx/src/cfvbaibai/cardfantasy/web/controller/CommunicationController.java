@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,9 +41,9 @@ public class CommunicationController {
     @Autowired
     private Logger logger;
     
-    @Autowired
-    @Qualifier("communication")
-    private java.util.logging.Logger julLogger;
+    //@Autowired
+    //@Qualifier("communication")
+    //private java.util.logging.Logger julLogger;
     
     @Autowired
     private CommunicationService service;
@@ -55,7 +54,7 @@ public class CommunicationController {
             @RequestParam("feedback") String feedback) {
         String remoteAddress = request.getRemoteAddr();
         String trace = "[FEEDBACK] IP: " + remoteAddress + ", SENDER: " + sender + ", CONTENT: " + feedback;
-        julLogger.info(trace);
+        //julLogger.info(trace);
         logger.info(trace);
         userActionRecorder.addAction(new UserAction(new Date(), remoteAddress, "Send Feedback", sender + ": " + feedback));
         service.newPost(Post.createNew(sender, feedback));
