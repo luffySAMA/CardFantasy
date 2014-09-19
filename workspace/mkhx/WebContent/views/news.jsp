@@ -5,18 +5,9 @@
                 <a href="#news-left-panel" data-role="button" data-mini="true" data-theme="b">点击左上角导航按钮开始使用模拟器</a>
             </div>
             <div data-role="collapsible" data-collapsed="false" data-mini="true" data-content-theme="d" data-theme="c">
-                <h3>模拟器代码开源声明</h3>
-                <p>由于工作越来越忙，白白几乎没有时间更新模拟器了，所以白白决定将模拟器的代码开源，希望能有能力和爱心兼备的程序员玩家们一起来努力。详情点击<a href="#open-source">这里</a>。</p>
-            </div>
-            <div data-role="collapsible" data-collapsed="false" data-mini="true" data-content-theme="d" data-theme="c">
-                <h3>公告</h3>
-                <ul>
-                    <li>这个版本的模拟器已经很老了，很多新卡没有。最新版本的模拟器由<b>千江工作室</b>开发和维护并免费开放，网址<a href="http://cnrdn.com/rd.htm?id=1344758&r=http%3a%2f%2fwww.qianjianghome.com">http://www.qianjianghome.com</a>。感谢千江的朋友们辛勤的劳动，让我们一起支持千江！</li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-collapsed="false" data-mini="true" data-content-theme="d" data-theme="c">
                 <h3>更新日志</h3>
                 <ul class="news-content">
+                	<li>2014-09-19: 【魔神战】中添加炼狱莉莉丝（不含小怪）</li>
                 	<li>2014-02-06: 添加新卡 - 【浴火龙女】王国五星</li>
                     <li>2014-01-24: 添加新卡 - 【熊老师】（同时也会加入到人品测试）<ul>
                         <li>种族：萌货，星数：五星，速度：4，10级COST：0，15级COST：0</li>

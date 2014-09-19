@@ -11,12 +11,11 @@
                         <option value="毁灭之神">新魔神：毁灭之神</option>
                         <option value="深渊影魔">新魔神：深渊影魔</option>
                         <option value="万蛛之后">新魔神：万蛛之后</option>
-                        <option value="旧复仇女神">旧魔神：复仇女神</option>
-                        <option value="旧邪龙之神">旧魔神：邪龙之神</option>
-                        <option value="旧噩梦之主">旧魔神：噩梦之主</option>
-                        <option value="旧毁灭之神">旧魔神：毁灭之神</option>
-                        <option value="旧深渊影魔">旧魔神：深渊影魔</option>
-                        <option value="旧万蛛之后">旧魔神：万蛛之后</option>
+                        <option value="炼狱莉莉丝+送还">炼狱莉莉丝+送还</option>
+                        <option value="炼狱莉莉丝+邪灵汲取6">炼狱莉莉丝+邪灵汲取6</option>
+                        <option value="炼狱莉莉丝+法力侵蚀8">炼狱莉莉丝+法力侵蚀8</option>
+                        <option value="炼狱莉莉丝+盾刺10">炼狱莉莉丝+盾刺10</option>
+                        <option value="炼狱莉莉丝+本源守护10">炼狱莉莉丝+本源守护10</option>
                     </select>
 
                     <!-- 军团加成：10级， -->

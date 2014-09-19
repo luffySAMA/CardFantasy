@@ -307,16 +307,16 @@ public class AutoBattleController {
             long minDamage = Math.round(stat.getMin());
             long maxDamage = Math.round(stat.getMax());
             
-            BossBattleStatEntry entry = new BossBattleStatEntry();
-            entry.setBossName(bossName);
-            entry.setHeroLv(heroLv);
-            entry.setBattleCount(gameCount);
-            entry.setMinDamage(minDamage);
-            entry.setAvgDamage(averageDamageToBoss);
-            entry.setMaxDamage(maxDamage);
-            String sortedDeck = DeckBuilder.getSortedDeckDesc(player2);
-            entry.setSortedDeck(sortedDeck);
-            service.newBossBattleStatEntry(entry);
+//            BossBattleStatEntry entry = new BossBattleStatEntry();
+//            entry.setBossName(bossName);
+//            entry.setHeroLv(heroLv);
+//            entry.setBattleCount(gameCount);
+//            entry.setMinDamage(minDamage);
+//            entry.setAvgDamage(averageDamageToBoss);
+//            entry.setMaxDamage(maxDamage);
+//            String sortedDeck = DeckBuilder.getSortedDeckDesc(player2);
+//            entry.setSortedDeck(sortedDeck);
+//            service.newBossBattleStatEntry(entry);
             
             long testMinute = 99999;
             long testBattleCount = 1 + (60 * testMinute / coolDown);

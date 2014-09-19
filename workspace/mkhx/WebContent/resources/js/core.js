@@ -26,14 +26,6 @@ var getParam = function(originalName) {
 };
 Core.getParam = getParam;
 
-var uploadToCnzzUrl = function(url) {
-    $.get(
-            'http://cnrdn.com/rd.htm?id=1344758&r=' + url + '&seed=' + seed,
-            function(data) { console.log('Visit to ' + url + ' uploaded to CNZZ.'); }
-    );
-};
-Core.uploadToCnzzUrl = uploadToCnzzUrl;
-
 var sendJsonRequest = function(attrs) {
     attrs.requestType = 'json';
     sendAjaxRequest(attrs);
@@ -44,14 +36,12 @@ var sendAjaxRequest = function(attrs) {
     //alert('服务器今晚出现极度不稳定现象，暂时关闭维护，明天开放。抱歉各位');
     //return;
     var url = attrs.url;
-    var cnzzUrl = attrs.cnzzUrl || url;
     var postData = attrs.postData;
     var requestType = attrs.requestType; // json for JSON request or undefined for plain text request
     var dataHandler = attrs.dataHandler || function(context, data) {};
     var errorHandler = attrs.errorHandler || function(context, xhr, status, error) { alert('Error: ' + status + '! ' + error); };
     var completeHandler = attrs.completeHandler || function(context) {};
 
-    uploadToCnzzUrl(cnzzUrl);
     var buttons = $('a.battle-button');
     buttons.addClass('ui-disbaled');
     $.mobile.loading('show');
@@ -220,6 +210,32 @@ var playBossGame = function(count) {
 };
 Core.playBossGame = playBossGame;
 
+var playlilisiGame = function(count) {
+    var deck = $('#deck').val().trim();
+    var heroLv = $('#heroLv').val();
+    var bossName = $('#lilisi-name').val();
+    var postData = {
+        deck: deck,
+        hlv: heroLv,
+        bn: bossName,
+        count: count
+    };
+
+    $.cookie('lilisi-battle', JSON.stringify(postData), { expires: 365 });
+    var isAnimation = false;
+    var url;
+    if (count == 1) {
+        url = 'Playlilisi1MatchGame';
+    } else if (count == -1) {
+        url = 'Simulatelilisi1MatchGame';
+        isAnimation = true;
+    } else {
+        url = 'PlaylilisiMassiveGame';
+    }
+    sendRequest(url, postData, 'lilisi-battle-output', isAnimation);
+};
+Core.playlilisiGame = playlilisiGame;
+
 var playMapGame = function(count) {
     var deck = $('#map-deck').val().trim();
     var heroLv = $('#map-hero-lv').val();
@@ -315,7 +331,6 @@ $(document)
     
     var showVictoryCondition = function() {
         var map = getMap();
-        $.get('http://cnrdn.com/rd.htm?id=1344758&r=ShowVictoryCondition&seed=' + seed, function(data) { console.log('ShowVictoryCondition'); });
         $.get('GetMapVictoryCondition?map=' + map, function(data) {
             console.log("Map victory condition for '" + map + "': " + JSON.stringify(data));
             $("#map-victory-condition").text(data);
@@ -345,6 +360,27 @@ $(document)
     $('#play-boss-1-game-button').attr('href', 'javascript:CardFantasy.Core.playBossGame(1);');
     $('#simulate-boss-1-game-button').attr('href', 'javascript:CardFantasy.Core.playBossGame(-1);');
     $('#play-boss-massive-game-button').attr('href', 'javascript:CardFantasy.Core.playBossGame(1000);');
+    /*
+    var page = $(event.target);
+    page.find('a.right-nav-button .ui-btn-text').text('推荐卡组');
+    page.find('a.right-nav-button')
+        .attr('href', '#recommend-boss-battle-deck')
+        .attr('data-icon', 'info')
+        .show().buttonMarkup('refresh');
+    */
+})
+
+.on("pageinit", "#lilisi-battle", function(event) {
+    var dataText = $.cookie('lilisi-battle');
+    if (dataText) {
+        var data = JSON.parse(dataText);
+        if (data.deck) { $('#deck').val(data.deck); }
+        if (data.hlv) { $('#heroLv').val(data.hlv); }
+        if (data.bn) { $('#lilisi-name').val(data.bn).selectmenu('refresh'); }
+    }
+    $('#play-lilisi-1-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(1);');
+    $('#simulate-lilisi-1-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(-1);');
+    $('#play-lilisi-massive-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(1000);');
     /*
     var page = $(event.target);
     page.find('a.right-nav-button .ui-btn-text').text('推荐卡组');
