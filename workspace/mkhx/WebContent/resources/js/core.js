@@ -210,32 +210,6 @@ var playBossGame = function(count) {
 };
 Core.playBossGame = playBossGame;
 
-var playlilisiGame = function(count) {
-    var deck = $('#deck').val().trim();
-    var heroLv = $('#heroLv').val();
-    var bossName = $('#lilisi-name').val();
-    var postData = {
-        deck: deck,
-        hlv: heroLv,
-        bn: bossName,
-        count: count
-    };
-
-    $.cookie('lilisi-battle', JSON.stringify(postData), { expires: 365 });
-    var isAnimation = false;
-    var url;
-    if (count == 1) {
-        url = 'Playlilisi1MatchGame';
-    } else if (count == -1) {
-        url = 'Simulatelilisi1MatchGame';
-        isAnimation = true;
-    } else {
-        url = 'PlaylilisiMassiveGame';
-    }
-    sendRequest(url, postData, 'lilisi-battle-output', isAnimation);
-};
-Core.playlilisiGame = playlilisiGame;
-
 var playMapGame = function(count) {
     var deck = $('#map-deck').val().trim();
     var heroLv = $('#map-hero-lv').val();
@@ -370,26 +344,6 @@ $(document)
     */
 })
 
-.on("pageinit", "#lilisi-battle", function(event) {
-    var dataText = $.cookie('lilisi-battle');
-    if (dataText) {
-        var data = JSON.parse(dataText);
-        if (data.deck) { $('#deck').val(data.deck); }
-        if (data.hlv) { $('#heroLv').val(data.hlv); }
-        if (data.bn) { $('#lilisi-name').val(data.bn).selectmenu('refresh'); }
-    }
-    $('#play-lilisi-1-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(1);');
-    $('#simulate-lilisi-1-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(-1);');
-    $('#play-lilisi-massive-game-button').attr('href', 'javascript:CardFantasy.Core.playlilisiGame(1000);');
-    /*
-    var page = $(event.target);
-    page.find('a.right-nav-button .ui-btn-text').text('推荐卡组');
-    page.find('a.right-nav-button')
-        .attr('href', '#recommend-boss-battle-deck')
-        .attr('data-icon', 'info')
-        .show().buttonMarkup('refresh');
-    */
-})
 .on("pageinit", "#arena-battle", function(event) {
     var dataText = $.cookie('arena-battle');
     if (dataText) {

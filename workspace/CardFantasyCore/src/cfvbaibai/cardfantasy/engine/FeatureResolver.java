@@ -11,6 +11,7 @@ import cfvbaibai.cardfantasy.data.Race;
 import cfvbaibai.cardfantasy.data.RuneActivationType;
 import cfvbaibai.cardfantasy.data.RuneActivator;
 import cfvbaibai.cardfantasy.data.RuneData;
+import cfvbaibai.cardfantasy.engine.feature.AllDelayFeature;
 import cfvbaibai.cardfantasy.engine.feature.AttackUpFeature;
 import cfvbaibai.cardfantasy.engine.feature.BackStabFeature;
 import cfvbaibai.cardfantasy.engine.feature.BlockFeature;
@@ -50,6 +51,7 @@ import cfvbaibai.cardfantasy.engine.feature.LegionBuffFeature;
 import cfvbaibai.cardfantasy.engine.feature.LighteningMagicFeature;
 import cfvbaibai.cardfantasy.engine.feature.MagicShieldFeature;
 import cfvbaibai.cardfantasy.engine.feature.ManaErodeFeature;
+import cfvbaibai.cardfantasy.engine.feature.OneDelayFeature;
 import cfvbaibai.cardfantasy.engine.feature.OverdrawFeature;
 import cfvbaibai.cardfantasy.engine.feature.PenetrationFeature;
 import cfvbaibai.cardfantasy.engine.feature.PlagueFeature;
@@ -74,6 +76,7 @@ import cfvbaibai.cardfantasy.engine.feature.SpikeFeature;
 import cfvbaibai.cardfantasy.engine.feature.TransportFeature;
 import cfvbaibai.cardfantasy.engine.feature.TrapFeature;
 import cfvbaibai.cardfantasy.engine.feature.TsukomiFeature;
+import cfvbaibai.cardfantasy.engine.feature.UnbendingFeature;
 import cfvbaibai.cardfantasy.engine.feature.WarthFeature;
 import cfvbaibai.cardfantasy.engine.feature.WeakPointAttackFeature;
 import cfvbaibai.cardfantasy.engine.feature.WeakenAllFeature;
@@ -81,8 +84,6 @@ import cfvbaibai.cardfantasy.engine.feature.WeakenFeature;
 import cfvbaibai.cardfantasy.engine.feature.WinningPursuitFeature;
 import cfvbaibai.cardfantasy.engine.feature.WoundFeature;
 import cfvbaibai.cardfantasy.engine.feature.ZealotFeature;
-import cfvbaibai.cardfantasy.engine.feature.AllDelayFeature;
-import cfvbaibai.cardfantasy.engine.feature.OneDelayFeature;
 
 
 public class FeatureResolver {
@@ -429,6 +430,12 @@ public class FeatureResolver {
                             result.setAttackable(false);
                             return result;
                         }
+                    } else if (blockFeature.getType() == FeatureType.不屈) {
+                        if (UnbendingFeature.isFeatureEscaped(this, blockFeature.getFeature(), attackFeature, attacker,
+                                defender)) {
+                            result.setAttackable(false);
+                            return result;
+                        }
                     }
                 }
                 {
@@ -673,13 +680,31 @@ public class FeatureResolver {
     }
 
     public OnDamagedResult applyDamage(CardInfo card, int damage) {
-        int actualDamage = card.applyDamage(damage);
+        int actualDamage;
+    	if (card.getStatus().containsStatus(CardStatusType.不屈)) {
+    		actualDamage = 0;
+    	} else {
+    		actualDamage = card.applyDamage(damage);
+    	}
         OnDamagedResult result = new OnDamagedResult();
         result.originalDamage = damage;
         result.actualDamage = actualDamage;
+        result.cardDead = false;
         if (card.getHP() <= 0) {
             result.cardDead = true;
-            cardDead(card);
+        	for (FeatureInfo featureInfo : card.getAllUsableFeatures()) {
+        		if(featureInfo.getType() == FeatureType.不屈){
+        			if (card.hasUsed(featureInfo)) {
+        				break;
+        	        } else {
+        				UnbendingFeature.apply(this, card, featureInfo);
+                        result.cardDead = false;
+        			}
+        		}
+        	}
+        	if(result.cardDead == true){
+                cardDead(card);
+        	}
         }
         return result;
     }
@@ -958,6 +983,8 @@ public class FeatureResolver {
         for (FeatureInfo blockFeature : victim.getNormalUsableFeatures()) {
             if (blockFeature.getType() == FeatureType.脱困) {
                 blocked = EscapeFeature.isStatusEscaped(blockFeature.getFeature(), this, item, victim);
+            } else if (blockFeature.getType() == FeatureType.不屈) {
+                blocked = UnbendingFeature.isStatusEscaped(blockFeature.getFeature(), this, item, victim);
             }
         }
         return new BlockStatusResult(blocked);

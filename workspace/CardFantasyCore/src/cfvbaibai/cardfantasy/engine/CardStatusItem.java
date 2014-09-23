@@ -65,6 +65,10 @@ public class CardStatusItem {
     public static CardStatusItem confused(FeatureInfo cause) {
         return new CardStatusItem(CardStatusType.迷惑, 0, cause);
     }
+
+    public static CardStatusItem unbended(FeatureInfo cause) {
+        return new CardStatusItem(CardStatusType.不屈, 0, cause);
+    }
     
     public String getShortDesc() {
         StringBuffer sb = new StringBuffer();

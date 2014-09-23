@@ -155,6 +155,27 @@ public class GameEngine {
     }
 
     private Phase roundEnd() {
+    	Field myField = getActivePlayer().getField();
+        Field opField = getInactivePlayer().getField();
+
+        for (int i = 0; i < myField.size(); ++i) {
+            if (myField.getCard(i) == null) {
+                continue;
+            }
+            CardInfo card = myField.getCard(i);
+        	if (card.getStatus().containsStatus(CardStatusType.不屈)) {
+        		this.stage.getResolver().removeStatus(myField.getCard(i), CardStatusType.不屈);
+            }
+        }
+        for (int i = 0; i < opField.size(); ++i) {
+            if (opField.getCard(i) == null) {
+                continue;
+            }
+            CardInfo card = opField.getCard(i);
+        	if (card.getStatus().containsStatus(CardStatusType.不屈)) {
+        		this.stage.getResolver().removeStatus(myField.getCard(i), CardStatusType.不屈);
+            }
+        }
         Collection<CardInfo> allHandCards = this.stage.getAllHandCards();
         for (CardInfo card : allHandCards) {
             int summonDelay = card.getSummonDelay();

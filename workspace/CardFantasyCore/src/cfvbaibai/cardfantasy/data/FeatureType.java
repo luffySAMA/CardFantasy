@@ -123,7 +123,7 @@ public enum FeatureType {
     
     圣炎("43446", 0),
     法力侵蚀("43447", 20),
-
+    不屈("56962", 0),
     英雄杀手("36260", 0, 15, FeatureTag.额外攻击加成, FeatureTag.不可洗炼),
 
     军团王国之力("", 0, 3, FeatureTag.永久, FeatureTag.原始攻击加成, FeatureTag.不可洗炼),
